@@ -46,17 +46,13 @@ function searchTask(e) {
 }
 
 function addToLocalStorage(task) {
-  let tasks;
-  if (localStorage.getItem("tasks") === null) tasks = [];
-  else tasks = JSON.parse(localStorage.getItem("tasks"));
+  let tasks = getFromLocalStorage();
   tasks.push(task);
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 function getTasksFromLocalStorage() {
-  let tasks;
-  if (localStorage.getItem("tasks") === null) tasks = [];
-  else tasks = JSON.parse(localStorage.getItem("tasks"));
+  let tasks = getFromLocalStorage();
 
   tasks.forEach((task) => {
     let li = document.createElement("li");
@@ -69,9 +65,7 @@ function getTasksFromLocalStorage() {
 }
 
 function removeTaskFromLocalStorage(task) {
-  let tasks;
-  if (localStorage.getItem("tasks") === null) tasks = [];
-  else tasks = JSON.parse(localStorage.getItem("tasks"));
+  let tasks = getFromLocalStorage();
 
   let li = task;
   li.removeChild(li.lastChild); // removing button
@@ -80,4 +74,11 @@ function removeTaskFromLocalStorage(task) {
     if (li.textContent.trim() === t.trim()) tasks.splice(i, 1);
   });
   localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function getFromLocalStorage() {
+  let tasks;
+  if (localStorage.getItem("tasks") === null) tasks = [];
+  else tasks = JSON.parse(localStorage.getItem("tasks"));
+  return tasks;
 }
