@@ -7,6 +7,7 @@ let clearTaskBtn = document.getElementById("clear-task-btn");
 addTaskForm.addEventListener("submit", addTask);
 taskList.addEventListener("click", removeTask);
 clearTaskBtn.addEventListener("click", clearTasks);
+search.addEventListener("keyup", searchTask);
 
 function addTask(e) {
   if (taskInput.value === "") alert("Add a Task");
@@ -14,7 +15,7 @@ function addTask(e) {
     let li = document.createElement("li");
     let deletebtn = document.createElement("button");
     deletebtn.innerText = "Delete";
-    li.appendChild(document.createTextNode(taskInput.value));
+    li.appendChild(document.createTextNode(taskInput.value + " "));
     li.appendChild(deletebtn);
     taskList.appendChild(li);
     taskInput.value = "";
@@ -30,4 +31,16 @@ function removeTask(e) {
 
 function clearTasks() {
   taskList.innerHTML = "";
+}
+
+function searchTask(e) {
+  let searchText = e.target.value.toLowerCase();
+  document.querySelectorAll("li").forEach((li) => {
+    let content = li.textContent.toLowerCase();
+    if (content.indexOf(searchText) !== -1) {
+      li.style.display = "block";
+    } else {
+      li.style.display = "none";
+    }
+  });
 }
