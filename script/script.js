@@ -16,17 +16,21 @@ function addTask(e) {
     addToLocalStorage(taskInput.value);
     taskInput.value = "";
   }
-  e.preventDefault();
+  //   e.preventDefault();
 }
 
 function removeTask(e) {
   if (e.target.tagName === "BUTTON") {
-    if (confirm("Are you sure?")) e.target.parentElement.remove();
+    if (confirm("Are you sure?")) {
+      e.target.parentElement.remove();
+      removeTaskFromLocalStorage(e.target.parentElement);
+    }
   }
 }
 
 function clearTasks() {
   taskList.innerHTML = "";
+  localStorage.clear();
 }
 
 function searchTask(e) {
@@ -62,4 +66,18 @@ function getTasksFromLocalStorage() {
     li.appendChild(deletebtn);
     taskList.appendChild(li);
   });
+}
+
+function removeTaskFromLocalStorage(task) {
+  let tasks;
+  if (localStorage.getItem("tasks") === null) tasks = [];
+  else tasks = JSON.parse(localStorage.getItem("tasks"));
+
+  let li = task;
+  li.removeChild(li.lastChild); // removing button
+
+  tasks.forEach((t, i) => {
+    if (li.textContent.trim() === t.trim()) tasks.splice(i, 1);
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
