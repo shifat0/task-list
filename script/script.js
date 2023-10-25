@@ -5,7 +5,6 @@ let taskList = document.getElementById("task-list");
 let clearTaskBtn = document.getElementById("clear-task-btn");
 
 addTaskForm.addEventListener("submit", addTask);
-taskList.addEventListener("click", removeTask);
 
 function addTask(e) {
   if (taskInput.value === "") alert("Add a Task");
@@ -19,10 +18,4 @@ function addTask(e) {
     taskInput.value = "";
   }
   e.preventDefault();
-}
-
-function removeTask(e) {
-  if (e.target.tagName === "BUTTON") {
-    if (confirm("Are you sure?")) e.target.parentElement.remove();
-  }
 }
