@@ -8,16 +8,12 @@ addTaskForm.addEventListener("submit", addTask);
 taskList.addEventListener("click", removeTask);
 clearTaskBtn.addEventListener("click", clearTasks);
 search.addEventListener("keyup", searchTask);
+document.addEventListener("DOMContentLoaded", getTasksFromLocalStorage);
 
 function addTask(e) {
   if (taskInput.value === "") alert("Add a Task");
   else {
-    let li = document.createElement("li");
-    let deletebtn = document.createElement("button");
-    deletebtn.innerText = "Delete";
-    li.appendChild(document.createTextNode(taskInput.value + " "));
-    li.appendChild(deletebtn);
-    taskList.appendChild(li);
+    addToLocalStorage(taskInput.value);
     taskInput.value = "";
   }
   e.preventDefault();
@@ -42,5 +38,28 @@ function searchTask(e) {
     } else {
       li.style.display = "none";
     }
+  });
+}
+
+function addToLocalStorage(task) {
+  let tasks;
+  if (localStorage.getItem("tasks") === null) tasks = [];
+  else tasks = JSON.parse(localStorage.getItem("tasks"));
+  tasks.push(task);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function getTasksFromLocalStorage() {
+  let tasks;
+  if (localStorage.getItem("tasks") === null) tasks = [];
+  else tasks = JSON.parse(localStorage.getItem("tasks"));
+
+  tasks.forEach((task) => {
+    let li = document.createElement("li");
+    let deletebtn = document.createElement("button");
+    deletebtn.innerText = "Delete";
+    li.appendChild(document.createTextNode(task + " "));
+    li.appendChild(deletebtn);
+    taskList.appendChild(li);
   });
 }
